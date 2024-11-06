@@ -1,0 +1,64 @@
+# Equivalent with customizing config/kraft/server.properties, but on the Docker
+services:
+  kafka-1:
+    container_name: kafka-1
+    image: bitnami/kafka:latest
+    ports:
+      - 9092:9092
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=1
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_KRAFT_CLUSTER_ID=9fLerwh_S_OYagLSmjfwHg
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9091,2@kafka-2:9091,3@kafka-3:9091
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9190,CONTROLLER://:9091,EXTERNAL://:9092
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-1:9190,EXTERNAL://localhost:9092
+      # In prod, change PLAINTEXT -> SSL for encryption
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    volumes:
+      - /home/anna/Desktop/Kafka_class/docker-volumes/server-1
+
+  kafka-2:
+    container_name: kafka-2
+    image: bitnami/kafka:latest
+    ports:
+      - 9094:9094
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=2
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_KRAFT_CLUSTER_ID=9fLerwh_S_OYagLSmjfwHg
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9091,2@kafka-2:9091,3@kafka-3:9091
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9190,CONTROLLER://:9091,EXTERNAL://:9094
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-2:9190,EXTERNAL://localhost:9094
+      # In prod, change PLAINTEXT -> SSL for encryption
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    volumes:
+      - /home/anna/Desktop/Kafka_class/docker-volumes/server-2
+
+  kafka-3:
+    container_name: kafka-3
+    image: bitnami/kafka:latest
+    ports:
+      - 9096:9096
+    environment:
+      # KRaft settings
+      - KAFKA_CFG_NODE_ID=3
+      - KAFKA_CFG_PROCESS_ROLES=broker,controller
+      - KAFKA_KRAFT_CLUSTER_ID=9fLerwh_S_OYagLSmjfwHg
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@kafka-1:9091,2@kafka-2:9091,3@kafka-3:9091
+      # Listeners
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9190,CONTROLLER://:9091,EXTERNAL://:9096
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka-3:9190,EXTERNAL://localhost:9096
+      # In prod, change PLAINTEXT -> SSL for encryption
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,EXTERNAL:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=PLAINTEXT
+    volumes:
+      - /home/anna/Desktop/Kafka_class/docker-volumes/server-3
